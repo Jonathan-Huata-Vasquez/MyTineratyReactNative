@@ -4,6 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { TextInput, DefaultTheme } from 'react-native-paper';
 import Header from './components/navbar/Header'
 import Login from './pages/Login'
+import SignUp from './pages/SingUp'
 //en native no existe html ni CSS
 
 const theme = {
@@ -21,7 +22,8 @@ const App = () => {
       <PaperProvider theme={theme}>
         <Header />
         <View style={estilos.body}>
-          <Login />
+          {/*<Login />*/}
+          <SignUp />
         </View>
       </PaperProvider>
 

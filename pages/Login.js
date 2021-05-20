@@ -8,7 +8,7 @@ class Login extends React.Component {
         visiblePassword: false,
         inputsValues: {
             email: "",
-            Password: ""
+            contrasena: ""
         },
         error: ""
     }
@@ -80,9 +80,9 @@ class Login extends React.Component {
 
     render() {
         return (
-            <View style={styles.stylePosition}>
-                <Title style={styles.styleTitle}> Log in to your account </Title>
-                <View style={styles.containerForm}>
+            <View style={[styles.stylePosition,myStyles.mt_3]}>
+                <Title style={[styles.styleTitle,]}> Log in to your account </Title>
+                <View style={[styles.containerForm,myStyles.mt_5]}>
                     <Button
                         mode="contained"
                         onPress={() => console.log('Pressed')}
@@ -120,7 +120,7 @@ class Login extends React.Component {
                     <Button
                         mode="contained"
                         onPress={() => console.log('Pressed')}
-                        style={[myStyles.mt_3]}
+                        style={[myStyles.mt_3,myStyles.w_auto]}
                     >
                         LOG IN !
                     </Button>
@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: "hsla(0, 0%, 100%, 0.884)",
         textAlign: "center",
         borderRadius: 6,
+        justifyContent:"center",
     },
     stylePosition: {
         alignItems: 'center',
