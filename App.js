@@ -1,21 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { View, ScrollView, Text, StyleSheet, StatusBar } from 'react-native'
+import { Provider as PaperProvider } from 'react-native-paper';
+import { TextInput, DefaultTheme } from 'react-native-paper';
+import Header from './components/navbar/Header'
+import Login from './pages/Login'
+//en native no existe html ni CSS
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'rgba(0,123,255,50)',
   },
-});
+};
+
+const App = () => {
+  return (
+    <>
+      <StatusBar />
+      <PaperProvider theme={theme}>
+        <Header />
+        <View style={estilos.body}>
+          <Login />
+        </View>
+      </PaperProvider>
+
+    </>
+  )
+
+
+}
+/*
+<PaperProvider theme = {theme}>
+      <View style={estilos.estiloCaja}> 
+        <Text>holo v3 </Text> 
+      </View>
+      <TextInput
+      label="Password"
+      mode = "outlined"
+      secureTextEntry
+      right={<TextInput.Icon name="eye" />}
+      />
+    </PaperProvider>
+*/
+const estilos = StyleSheet.create({
+  estiloCaja: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+
+  },
+  body: {
+    backgroundColor: "#343a40",
+    flex:1,
+  }
+})
+
+export default App
