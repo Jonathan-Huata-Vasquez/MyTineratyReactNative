@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
-import { TextInput, Button, Title, Banner } from 'react-native-paper';
+import { TextInput, Button, Title, Banner,ActivityIndicator } from 'react-native-paper';
 import { myStyles, myContainer } from '../helpers/myStyles'
 import Header from '../components/navbar/Header'
-import Icon from 'react-native-ico-material-design';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { connect } from 'react-redux'
+import authAction from '../redux/actions/authAction'
 
 class LogIn extends React.Component {
 
@@ -16,26 +17,26 @@ class LogIn extends React.Component {
         },
         error: "",
         visibleBanner: false,
+        loadingRequest:false
     }
 
     setError(anError) {
-        
         this.setState({
             ...this.state,
             error: anError,
-            visibleBanner:!this.state.visibleBanner
+            visibleBanner: true
         })
     }
 
-    readInput(field,value) {
-        
+    readInput(field, value) {
+
         this.setState({
             ...this.state,
             inputsValues: {
                 ...this.state.inputsValues,
                 [field]: value
             }
-        },()=>console.log(this.state));
+        });
     }
 
     changeVisibilityPassword() {
@@ -45,30 +46,40 @@ class LogIn extends React.Component {
         })
     }
 
-    toogleVisibilityBanner() {
+    setVisibilityBanner(value) {
         this.setState({
             ...this.state,
-            visibleBanner: !this.state.visibleBanner
+            visibleBanner: value
+        })
+    }
+    setLoadingRequest(value) {
+        this.setState({
+            ...this.state,
+            loadingRequest: value
         })
     }
 
-    
 
-    async send(objUsuario) {
+
+    async send(objUser) {
         this.setError("");
-        
+        this.setVisibilityBanner(false);
         const fieldValues = Object.values(this.state.inputsValues);
         if (fieldValues.some(field => field === "")) {
             this.setError("All the fields must be filled")
             return null;
         }
-
-        /*
-        //Envio los datos y en caso de errores de validaciones, lo trato
-        const error = await this.props.loguearUsuario(objUsuario)
+        this.setLoadingRequest(true)
+        const error = await this.props.logInUser(objUser)
         if (!error)
-            return null
-        this.setError(error);*/
+            return this.props.navigation.navigate("Home")
+        
+        this.setState({
+            ...this.state,
+            error:error,
+            loadingRequest:false,
+            visibleBanner:true
+        })
     }
 
     render() {
@@ -104,43 +115,47 @@ class LogIn extends React.Component {
                         label="Email"
                         mode="outlined"
                         style={myStyles.mt_2}
-                        onChangeText = {(e)=> this.readInput("email",e)}
+                        onChangeText={(e) => this.readInput("email", e)}
                     />
                     <TextInput
                         label="Password"
                         mode="outlined"
                         style={myStyles.mt_2}
-                        onChangeText = {(e)=> this.readInput("contrasena",e)}
+                        onChangeText={(e) => this.readInput("contrasena", e)}
                         secureTextEntry={!this.state.visiblePassword}
                         right={<TextInput.Icon name={this.state.visiblePassword ? "eye" : "eye-off"} onPress={() => this.changeVisibilityPassword()} />}
                     />
 
 
                     <Banner
-                        style={{ backgroundColor: "rgb(253, 236, 234)", color: "red", width: "100%",marginTop:10 }}
                         visible={this.state.visibleBanner}
+                        contentStyle={{margin:0,justifyContent:"center", alignItems: "center"}}
+                        style={{ backgroundColor: "rgb(253, 236, 234)", color: "red", width: "100%" ,flexDirection:"row",marginTop:10}}
                         actions={[]}
-                    >
-                        <View style={{ flexDirection: "row", alignItems: "center",justifyContent:"center" }}>
-                            <Icon 
-                                name="alert-circle-outline"
-                                color="red"
-                            />
-                            <Text>{this.state.error}</Text>
-                        </View>
+                        icon = {()=><Icon
+                            name="alert-circle-outline"
+                            color="red"
+                            size={30}
+                            style={{alignSelf:"baseline"}}
+                        />}
+                    >   
+                        {this.state.error}
                     </Banner>
+
 
                     <Button
                         mode="contained"
-                        onPress={() => this.send()}
+                        onPress={!this.state.loadingRequest && (() => this.send(this.state.inputsValues))}
                         style={[myStyles.mt_3, myStyles.w_auto]}
+                        icon= {this.state.loadingRequest? ()=> <ActivityIndicator color="white"/>:"" }
+                        
                     >
                         LOG IN !
                     </Button>
 
                     <Text style={[myStyles.mt_3, myStyles.mx_3, myStyles.text_center]} >Don't have an account? </Text>
                     {/*el segundo parametro es para que le llegue por props en  props.route.params.unaPropiedad*/}
-                    <Button onPress={() => this.props.navigation.navigate("SignUp", { unaPropiedad: "algo" })}>
+                    <Button onPress={() => this.props.navigation.navigate("SignUp", { unaPropiedad: "algo" })} >
                         <Text style={styles.callToActionForm}>Sign up </Text>
                     </Button>
 
@@ -192,4 +207,22 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LogIn;
+const mapDispatchToProps = {
+    logInUser: authAction.logInUser
+}
+
+export default connect(null, mapDispatchToProps)(LogIn);
+
+
+/*<View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
+    <Icon
+        name="alert-circle-outline"
+        color="red"
+        size={30}
+    />
+    {<Text style={{marginLeft:10,flexWrap}}>{this.state.error}</Text>}
+    <View style={{ marginLeft: 10, flex: 1, backgroundColor: "green", flexWrap: "wrap" }}>
+        <Text >Please provide a valid email and password</Text>
+    </View>
+
+</View>*/

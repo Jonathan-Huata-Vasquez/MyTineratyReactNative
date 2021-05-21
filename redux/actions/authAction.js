@@ -1,17 +1,18 @@
 import { endpointUserLogIn, endpointUserSignUp, endpointUserLogInToken } from '../../helpers/endpoints'
 import axios from 'axios';
 import {toastMessageError500,showToastMessage} from '../../helpers/myToasts'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const authActions = {
-    crearUsuario: (valoresInputs) => {
+    /*createUser: (valuesInputs) => {
         return async (dispatch, getState) => {
             try {
-                const { data } = await axios.post(endpointUserSignUp, valoresInputs)
+                const { data } = await axios.post(endpointUserSignUp, valuesInputs)
                 if (!data.success) {
                     return data.errores;
                 }
                 showToastMessage("success", `Welcome ${data.respuesta.nombreCompleto}`);
-                dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
+                dispatch({ type: "LOG_IN_USER", payload: data.respuesta })
             }
             catch (err) {//error en la comunicacion con el backend
                 console.log(err);
@@ -19,25 +20,29 @@ const authActions = {
             }
 
         }
-    },
-    loguearUsuario: (usuario, history) => {
+    },*/
+    logInUser: (user) => {
         return async (dispatch, getState) => {
             try {
-                const { data } = await axios.post(endpointUserLogIn, usuario)
+                console.log(user)
+                const { data } = await axios.post(endpointUserLogIn, user)
+                console.log(data)
                 if (!data.success) {
                     return data.error;
                 }
+
                 showToastMessage("success", `Welcome ${data.respuesta.nombreCompleto}`);
-                dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
+                dispatch({ type: "LOG_IN_USER", payload: data.respuesta })
 
             } catch (err) {
+                console.log(err)
                 toastMessageError500();
             }
 
         }
     },
 
-    logueoForzadoPorLS: (token, history) => {
+    /*forcedLogIn: (token, history) => {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.get(endpointUserLogInToken, {
@@ -55,7 +60,7 @@ const authActions = {
                 console.log(err)
                 if (err.response && err.response.status === 401) {
                     alert("try harder next time")
-                    localStorage.clear();
+                    AsyncStorage.clear().catch(error => console.log(error))
                     window.location.reload(true);
                     //history.push("/");
                 }
@@ -64,12 +69,13 @@ const authActions = {
             }
         }
     },
-    desloguearUsuario: () => {
+    */
+    /*signOutUser: () => {
         return (dispatch, getState) => {
             showToastMessage("info", "Come back later ");
-            dispatch({ type: "DESLOGUEAR_USER" })
+            dispatch({ type: "LOG_OUT_USER" })
         }
-    }
+    }*/
 }
 
 export default authActions;

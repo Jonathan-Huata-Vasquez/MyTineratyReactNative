@@ -26,11 +26,4 @@ const MyNavegator = () => {
     )
 }
 
-
-
-
-
-
-
-
 export default MyNavegator;

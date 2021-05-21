@@ -24,7 +24,6 @@
     "react-native-dropdown-picker": "^5.1.15",
     "react-native-flash-message": "^0.1.23",
     "react-native-gesture-handler": "~1.10.2",
-    "react-native-ico-material-design": "^3.3.1",
     "react-native-paper": "^4.8.1",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "3.2.0",
