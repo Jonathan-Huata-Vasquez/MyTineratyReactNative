@@ -87,7 +87,6 @@ export const myContainer = StyleSheet.create({
         marginTop: "3%",
         width: "80%",
         minWidth: 270,
-        
         //boxShadow: 8 8 10 rgb(0 0 0 / 43 %),
         shadowColor: "#000",
         shadowOffset: {
@@ -101,6 +100,13 @@ export const myContainer = StyleSheet.create({
         textAlign: "center",
         borderRadius: 6,
         justifyContent:"center",
-    }
+    },
 
+    body: {
+        backgroundColor: "#343a40",
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center",
+        color:"white"
+      }
 })

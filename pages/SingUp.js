@@ -4,6 +4,7 @@ import { TextInput, Button, Title, ActivityIndicator } from 'react-native-paper'
 import { myStyles, myContainer } from '../helpers/myStyles'
 import axios from 'axios'
 import MyDropDownPicker from '../components/MyDropDownPicker'
+import Header from '../components/navbar/Header'
 class SignUp extends React.Component {
 
     state = {
@@ -126,7 +127,7 @@ class SignUp extends React.Component {
 
         if (this.state.loading) {
             return (
-                <View style={[styles.stylePosition, mt_3]}>
+                <View style={[styles.stylePosition, mt_3,myContainer.body]}>
                     {this.state.errorCountries500
                         ? <Title style={text_center}>Ups, please reload the page</Title>
                         : <View >
@@ -138,9 +139,11 @@ class SignUp extends React.Component {
                 </View>
             )
         }
+        const {navigation} = this.props;
         return (
-            <View style={[styles.stylePosition, mt_3]}>
-                <Title style={[styles.styleTitle]}> Log in to your account </Title>
+            <View style={[styles.stylePosition,myContainer.body]}>
+                <Header openDrawer={navigation.openDrawer}/>
+                <Title style={[styles.styleTitle,mt_5]}> Log in to your account </Title>
                 <View style={[mt_5, myContainer.container]}>
                     <Button
                         mode="contained"
@@ -203,7 +206,10 @@ class SignUp extends React.Component {
                     </Button>
 
                     <Text style={[mt_3, mx_3, text_center]} >Have an account?</Text>
-                    <Text style={styles.callToActionForm}>Log In </Text>
+                    <Button   onPress={() => console.log(this.props.navigation.navigate("LogIn"))}>
+                        <Text style={styles.callToActionForm}>Log In </Text>
+                    </Button>
+                    
                 </View>
             </View>
         )

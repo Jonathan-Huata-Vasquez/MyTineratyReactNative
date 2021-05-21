@@ -1,13 +1,13 @@
+import 'react-native-gesture-handler';
 import React from 'react'
-import { View, ScrollView, Text, StyleSheet, StatusBar } from 'react-native'
+import {  StyleSheet, StatusBar } from 'react-native'
 import { Provider as PaperProvider } from 'react-native-paper';
-import { TextInput, DefaultTheme } from 'react-native-paper';
-import Header from './components/navbar/Header'
-import Login from './pages/Login'
-import SignUp from './pages/SingUp'
-//en native no existe html ni CSS
+import { TextInput, DefaultTheme  } from 'react-native-paper';
+import MyNavegator from './navegation/MyNavegator'
+import { NavigationContainer} from '@react-navigation/native';
 
-const theme = {
+//en native no existe html ni CSS
+const themePaper = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -15,19 +15,18 @@ const theme = {
   },
 };
 
+
+
 const App = () => {
   return (
-    <>
+    //dotamos una navegacion  a nuestra aplicacion , independientemente del tipo
+    <NavigationContainer >
       <StatusBar />
-      <PaperProvider theme={theme}>
-        <Header />
-        <View style={estilos.body}>
-          {/*<Login />*/}
-          <SignUp />
-        </View>
+      <PaperProvider theme={themePaper}>
+        <MyNavegator />
+        
       </PaperProvider>
-
-    </>
+    </NavigationContainer>
   )
 
 
@@ -52,10 +51,7 @@ const estilos = StyleSheet.create({
     flex: 1,
 
   },
-  body: {
-    backgroundColor: "#343a40",
-    flex:1,
-  }
+  
 })
 
 export default App

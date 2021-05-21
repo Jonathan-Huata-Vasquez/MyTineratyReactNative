@@ -1,19 +1,16 @@
 import * as React from 'react'; //sin esto no andan los componentes de react-native-paper
 import { useState } from "react"
-import { StyleSheet } from 'react-native'
+import { StyleSheet,View } from 'react-native'
 import { Appbar } from 'react-native-paper';
 
-const Header = () => {
-    const [toogleDrawer, setToogleDrawer] = useState(false);
-    function openCloseDrawer() {
-        setToogleDrawer(!toogleDrawer)
-    }
+const Header = ({openDrawer}) => {
     return (
-
+        <>
         <Appbar style={styles.bottom}>
-            <Appbar.Action icon="menu" onPress={() => openCloseDrawer} />
+            <Appbar.Action icon="menu" onPress={() => openDrawer()} />
         </Appbar>
-
+        <View style={styles.spacing}/>
+        </>
     )
 }
 const styles = StyleSheet.create({
@@ -21,9 +18,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 0,
-        top: 0
+        top: 0,
+        
     },
+    spacing:{
+        width:"100%",
+        height:30,
+        marginBottom:30
+    }
 });
 
 

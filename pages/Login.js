@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
 import { TextInput, Button, Title, } from 'react-native-paper';
-import {myStyles} from '../helpers/myStyles'
-class Login extends React.Component {
+import {myStyles,myContainer} from '../helpers/myStyles'
+import Header from '../components/navbar/Header'
+class LogIn extends React.Component {
 
     state = {
         visiblePassword: false,
@@ -79,8 +80,10 @@ class Login extends React.Component {
     }
 
     render() {
+        const {navigation} = this.props;
         return (
-            <View style={[styles.stylePosition,myStyles.mt_3]}>
+            <View style={[styles.stylePosition,myContainer.body]}>
+                <Header openDrawer={navigation.openDrawer}/>
                 <Title style={[styles.styleTitle,]}> Log in to your account </Title>
                 <View style={[styles.containerForm,myStyles.mt_5]}>
                     <Button
@@ -126,7 +129,11 @@ class Login extends React.Component {
                     </Button>
                     
                     <Text style={[myStyles.mt_3,myStyles.mx_3,myStyles.text_center]} >Don't have an account? </Text>
-                    <Text style={styles.callToActionForm}>Sign up </Text>
+                    {/*el segundo parametro es para que le llegue por props en  props.route.params.unaPropiedad*/}
+                    <Button   onPress={() => this.props.navigation.navigate("SignUp",{unaPropiedad:"algo"})}> 
+                        <Text style={styles.callToActionForm}>Sign up </Text>
+                    </Button>
+                    
                 </View>
             </View>
         )
@@ -173,6 +180,6 @@ const styles = StyleSheet.create({
         color: "rgb(116,204,223)",
         textAlign:"center"
     }
-})
+});
 
-export default Login
+export default LogIn;
