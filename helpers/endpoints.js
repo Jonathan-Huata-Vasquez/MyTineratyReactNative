@@ -1,0 +1,10 @@
+export const endpointCities = "https://mytinerary-jonathan-huata.herokuapp.com/api/cities";
+export const endpointItineraries = "https://mytinerary-jonathan-huata.herokuapp.com/api/itineraries";
+export const endpointItinerariesOfCity = "https://mytinerary-jonathan-huata.herokuapp.com/api/itineraries/city";
+export const endpointItinerariesOfCityLogueado = "https://mytinerary-jonathan-huata.herokuapp.com/api/itinerariesLogueado/city";
+export const endpointItinerariesModificarComentario = "https://mytinerary-jonathan-huata.herokuapp.com/api/itineraries/modificarComentario";
+export const endpointItinerariesLike = "https://mytinerary-jonathan-huata.herokuapp.com/api/itinerariesLike";
+export const endpointUserSignUp = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/signup";
+export const endpointUserLogIn = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/login";
+export const endpointUserLogInToken = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/loginLS";
+export const endpointActivitiesItinerary = "https://mytinerary-jonathan-huata.herokuapp.com/api/activities/itinerary";

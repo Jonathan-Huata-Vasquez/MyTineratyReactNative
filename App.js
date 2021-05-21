@@ -5,7 +5,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { TextInput, DefaultTheme  } from 'react-native-paper';
 import MyNavegator from './navegation/MyNavegator'
 import { NavigationContainer} from '@react-navigation/native';
-
+import Toast from 'react-native-toast-message';
 //en native no existe html ni CSS
 const themePaper = {
   ...DefaultTheme,
@@ -23,27 +23,15 @@ const App = () => {
     <NavigationContainer >
       <StatusBar />
       <PaperProvider theme={themePaper}>
+        <Toast ref={(ref) => Toast.setRef(ref)} style={{zIndex:2}} />
         <MyNavegator />
-        
       </PaperProvider>
     </NavigationContainer>
   )
 
 
 }
-/*
-<PaperProvider theme = {theme}>
-      <View style={estilos.estiloCaja}> 
-        <Text>holo v3 </Text> 
-      </View>
-      <TextInput
-      label="Password"
-      mode = "outlined"
-      secureTextEntry
-      right={<TextInput.Icon name="eye" />}
-      />
-    </PaperProvider>
-*/
+
 const estilos = StyleSheet.create({
   estiloCaja: {
     justifyContent: "center",

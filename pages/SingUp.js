@@ -124,7 +124,7 @@ class SignUp extends React.Component {
 
     render() {
         const { mt_2, mt_3, mx_3,mb_3, mt_5, w_auto, text_center, flex_1, w_100, minWidth } = myStyles;
-
+        const {navigation} = this.props;
         if (this.state.loading) {
             return (
                 <View style={[styles.stylePosition, mt_3,myContainer.body]}>
@@ -139,11 +139,11 @@ class SignUp extends React.Component {
                 </View>
             )
         }
-        const {navigation} = this.props;
+        
         return (
             <View style={[styles.stylePosition,myContainer.body]}>
                 <Header openDrawer={navigation.openDrawer}/>
-                <Title style={[styles.styleTitle,mt_5]}> Log in to your account </Title>
+                <Title style={[styles.styleTitle]}> Log in to your account </Title>
                 <View style={[mt_5, myContainer.container]}>
                     <Button
                         mode="contained"
