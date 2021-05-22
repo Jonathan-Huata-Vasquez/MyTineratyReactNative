@@ -1,7 +1,7 @@
 import { Avatar, Title, Caption, Drawer } from 'react-native-paper'
 import { StyleSheet, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { View,Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -10,28 +10,28 @@ import authAction from '../redux/actions/authAction'
 function DrawerContent(props) {
     const { navigation, userLogged } = props;
     return (
-        
-        <View style={{ flex: 1}}>
-            
+
+        <View style={{ flex: 1 }}>
+
             <DrawerContentScrollView {...props}>
-                
+
                 <View style={styles.drawerContent}>
                     <View style={styles.userInformation}>
-                        <View style={{ flexDirection: "row", marginTop:15, alignItems: "center" }}>
-            {/**/}
+                        <View style={{ flexDirection: "row", marginTop: 15, alignItems: "center" }}>
+
                             {userLogged
                                 ?
                                 <>
-                                    <Avatar.Image size={50} source={{uri:userLogged.usuarioAvatar}} />
+                                    <Avatar.Image size={50} source={{ uri: userLogged.usuarioAvatar }} />
                                     <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                                        <Title style={styles.title}>{userLogged.nombreCompleto }</Title>
+                                        <Title style={styles.title}>{userLogged.nombreCompleto}</Title>
                                         <Caption style={styles.caption}>user@gamil.com</Caption>
                                     </View>
                                 </>
-                                : 
+                                :
                                 <>
                                     <Image source={require('../assets/logoCompleto2.png')} style={{ width: 100, height: 100 }} resizeMode="contain" />
-                                    <Title style={[styles.title,{marginLeft: 15}]}>MyTinerary</Title>
+                                    <Title style={[styles.title, { marginLeft: 15 }]}>MyTinerary</Title>
                                 </>
                             }
 
@@ -52,10 +52,24 @@ function DrawerContent(props) {
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottonDrawerSection}>
                 {userLogged
-                    && <DrawerItemIcon nameIcon="exit-to-app" label="Sign Out" navigate={navigation.navigate} componentNameDestination="Home" />
+                    && <DrawerItem
+                        icon={({ color, size }) => (
+                            <Icon
+                                name="exit-to-app"
+                                color={color}
+                                size={size}
+                            />
+                        )}
+                        label="Sign out"
+                        onPress={() => {
+                            props.signOutUser();
+                            navigation.navigate("Home");
+                        }}
+                    >
+                    </DrawerItem>
                 }
 
-            </Drawer.Section> 
+            </Drawer.Section>
         </View>
     );
 }
@@ -68,7 +82,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     title: {
-        flex:1,
+        flex: 1,
         fontSize: 16,
         marginTop: 3,
         fontWeight: "bold",
@@ -107,10 +121,10 @@ const styles = StyleSheet.create({
     }
 })
 
-const DrawerItemIcon = ({ nameIcon, label, navigate, componentNameDestination  }) => {
-   
+const DrawerItemIcon = ({ nameIcon, label, navigate, componentNameDestination }) => {
+
     return (
-        
+
         <DrawerItem
             icon={({ color, size }) => (
                 <Icon
@@ -120,7 +134,7 @@ const DrawerItemIcon = ({ nameIcon, label, navigate, componentNameDestination  }
                 />
             )}
             label={label}
-            onPress={() =>  navigate(componentNameDestination)}
+            onPress={() => navigate(componentNameDestination)}
         >
         </DrawerItem>
     )
@@ -136,4 +150,4 @@ const mapDispatchToProps = {
     signOutUser: authAction.signOutUser
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(DrawerContent)
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent)
