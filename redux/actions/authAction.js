@@ -70,12 +70,12 @@ const authActions = {
         }
     },
     */
-    /*signOutUser: () => {
+    signOutUser: () => {
         return (dispatch, getState) => {
             showToastMessage("info", "Come back later ");
             dispatch({ type: "LOG_OUT_USER" })
         }
-    }*/
+    }
 }
 
 export default authActions;

@@ -40,17 +40,6 @@ const App = () => {
     </Provider>
   )
 
-
 }
-
-const estilos = StyleSheet.create({
-  estiloCaja: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-
-  },
-
-})
 
 export default App

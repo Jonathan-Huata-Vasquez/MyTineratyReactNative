@@ -16,12 +16,12 @@ const authReducer = (state = inicialState, action) =>{
             };
             
 
-       /* case "LOG_OUT_USER":
+        case "LOG_OUT_USER":
             AsyncStorage.clear().catch(error  => {console.log(error); showToastMessage("error",error)});
             return {
                 ...state,
                 userLogged:null
-            }*/
+            }
         default: 
             return state;
     }

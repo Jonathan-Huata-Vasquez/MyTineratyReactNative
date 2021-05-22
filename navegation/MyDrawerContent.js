@@ -9,14 +9,16 @@ import authAction from '../redux/actions/authAction'
 
 function DrawerContent(props) {
     const { navigation, userLogged } = props;
-    console.log(props)
     return (
-        <View style={{ flex: 1,  }}>
+        
+        <View style={{ flex: 1}}>
+            
             <DrawerContentScrollView {...props}>
+                
                 <View style={styles.drawerContent}>
                     <View style={styles.userInformation}>
-                        <View style={{ flexDirection: "row", marginTop: 15, alignItems: "center" }}>
-
+                        <View style={{ flexDirection: "row", marginTop:15, alignItems: "center" }}>
+            {/**/}
                             {userLogged
                                 ?
                                 <>
@@ -49,14 +51,15 @@ function DrawerContent(props) {
 
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottonDrawerSection}>
-                {/*userLogged
+                {userLogged
                     && <DrawerItemIcon nameIcon="exit-to-app" label="Sign Out" navigate={navigation.navigate} componentNameDestination="Home" />
-                */}
+                }
 
-            </Drawer.Section>
+            </Drawer.Section> 
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     drawerContent: {
         flex: 1,
