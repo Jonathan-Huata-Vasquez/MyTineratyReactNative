@@ -108,5 +108,10 @@ export const myContainer = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         color:"white"
-      }
+    },
+    scrollBody:{
+        backgroundColor: "#343a40",
+        flex:1,
+        color:"white"
+    }
 })

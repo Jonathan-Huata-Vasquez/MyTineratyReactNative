@@ -127,6 +127,20 @@ class LogIn extends React.Component {
                     />
 
 
+                    <Banner
+                        visible={this.state.visibleBanner}
+                        contentStyle={{margin:0,justifyContent:"center", alignItems: "center"}}
+                        style={{ backgroundColor: "rgb(253, 236, 234)", color: "red", width: "100%" ,flexDirection:"row",marginTop:10}}
+                        actions={[]}
+                        icon = {()=><Icon
+                            name="alert-circle-outline"
+                            color="red"
+                            size={30}
+                            style={{alignSelf:"baseline"}}
+                        />}
+                    >   
+                        {this.state.error}
+                    </Banner>
 
 
                     <Button
@@ -146,6 +160,8 @@ class LogIn extends React.Component {
                     </Button>
 
                 </View>
+                <View style= {{height:20}} />
+                
             </View>
         )
     }

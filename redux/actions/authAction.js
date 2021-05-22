@@ -4,10 +4,10 @@ import {toastMessageError500,showToastMessage} from '../../helpers/myToasts'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const authActions = {
-    /*createUser: (valuesInputs) => {
+    signUpUser: (inputsValues) => {
         return async (dispatch, getState) => {
             try {
-                const { data } = await axios.post(endpointUserSignUp, valuesInputs)
+                const { data } = await axios.post(endpointUserSignUp, inputsValues)
                 if (!data.success) {
                     return data.errores;
                 }
@@ -20,13 +20,11 @@ const authActions = {
             }
 
         }
-    },*/
+    },
     logInUser: (user) => {
         return async (dispatch, getState) => {
             try {
-                console.log(user)
                 const { data } = await axios.post(endpointUserLogIn, user)
-                console.log(data)
                 if (!data.success) {
                     return data.error;
                 }
