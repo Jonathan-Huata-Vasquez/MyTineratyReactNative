@@ -1,10 +1,18 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, Image, ScrollView,FlatList, SafeAreaView } from 'react-native'
 import { TextInput, Button, Title, ActivityIndicator, HelperText } from 'react-native-paper';
 import { myStyles, myContainer } from '../helpers/myStyles'
 import axios from 'axios'
 import MyDropDownPicker from '../components/MyDropDownPicker'
 import Header from '../components/navbar/Header'
+import signUpUser from '../redux/actions/authAction'
+import { connect } from 'react-redux'
+import authActions from '../redux/actions/authAction';
+
+import { LogBox } from 'react-native';
+
+
+
 class SignUp extends React.Component {
 
     state = {
@@ -42,21 +50,48 @@ class SignUp extends React.Component {
             }
         })
     }
-    componentDidMount() {
-        axios.get("https://restcountries.eu/rest/v2/all")
-            .then(res => this.setState({
+    async componentDidMount() {
+        try {
+            let { data } = await axios.get("https://restcountries.eu/rest/v2/all");
+            let countries = data.map(country => country.name);
+            this.setState({
                 ...this.state,
                 loadingCountries: false,
-                countries: res.data.map(country => country.name)
-            }))
-            .catch(error => {
-                this.setState({
-                    ...this.state,
-                    loadingCountries: false,
-                    errorCountries500: true,
-                })
-                console.log(error)
+                countries
             })
+
+        } catch (error) {
+            this.setState({
+                ...this.state,
+                loadingCountries: false,
+                errorCountries500: true,
+            })
+            console.log(error)
+        }
+        this.props.navigation.addListener("focus", () => {
+            this.setState({
+                ...this.state,
+                loadingCountries: false,
+                loadingRequest: false,
+                visiblePassword: false,
+                inputsValues: { //el backend esta adaptado para estos campos en español
+                    nombre: "",
+                    apellido: "",
+                    email: "",
+                    contrasena: "",
+                    usuarioAvatar: "",
+                    pais: ""
+                },
+                error: {
+                    nombre: "",
+                    apellido: "",
+                    email: "",
+                    contrasena: "",
+                    usuarioAvatar: "",
+                }
+            })
+        })
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
     }
 
@@ -75,23 +110,41 @@ class SignUp extends React.Component {
                 ...this.state.inputsValues,
                 [field]: value
             }
-        }, () => console.log(this.state.inputsValues))
+        })
 
     }
 
+    setLoadingRequest(value) {
+        this.setState({
+            ...this.state,
+            loadingRequest: value
+        })
+    }
     async send(objUser) {
+
         let fields = Object.keys(this.state.inputsValues);
         let hasEmptyFields = false;
-        //
+        let newError = { ...this.state.error };
         fields.forEach(field => {
-            const isEmpty = field !== "country" && objUser[field] === "";
+            const isEmpty = field !== "pais" && objUser[field] === "";
             hasEmptyFields = isEmpty ? true : hasEmptyFields;
-            this.iterableSetError(field, isEmpty ? "This field is required" : "")
-        })
-        if (hasEmptyFields) return null;
+            /*this.iterableSetError(field, isEmpty ? "This field is required" : "")*/
+            newError[field] = isEmpty ? "This field is required" : ""
 
-        /*
-        //Veo si hay erroes del backend
+        })
+        if (hasEmptyFields) {
+            this.setState({
+                ...this.state,
+                error: newError
+            })
+            return null;
+        } else {
+            this.setState({
+                ...this.state,
+                error: newError,
+                loadingRequest: true
+            })
+        }
         let errors = await this.props.signUpUser({
             ...objUser,
             nombre: objUser.nombre.trim(),
@@ -100,24 +153,12 @@ class SignUp extends React.Component {
 
         if (errors) {
             errors.forEach(anError => this.iterableSetError(anError.label, anError.message));
-        }else{
+            this.setLoadingRequest(false);
+        } else {
             this.props.navigation.navigate("Home");
-        }*/
+        }
     }
-    responseGoogle(response) {
-        //en caso de que el usuario cierre el popup
-        if (!response.profileObj) return null;
 
-        const userGoogle = response.profileObj
-        this.send({
-            nombre: userGoogle.givenName,
-            apellido: userGoogle.familyName,
-            email: userGoogle.email,
-            contrasena: "google" + userGoogle.googleId + "myTinerary",
-            usuarioAvatar: userGoogle.imageUrl,
-            pais: ""
-        }, true)
-    }
 
     render() {
         const { mt_2, mt_3, mx_3, mb_3, mt_5, w_auto, text_center, flex_1, w_100, minWidth } = myStyles;
@@ -136,9 +177,11 @@ class SignUp extends React.Component {
                 </View>
             )
         }
-
+        
         return (
-            <ScrollView style= {myContainer.scrollBody}>
+            
+            <ScrollView style={myContainer.scrollBody}>
+                {console.log("renderizando")}
                 <View style={[styles.stylePosition, myContainer.body]}>
                     <Header openDrawer={navigation.openDrawer} />
                     <Title style={[styles.styleTitle]}> Log in to your account </Title>
@@ -170,13 +213,17 @@ class SignUp extends React.Component {
                             mode="outlined"
                             style={mt_2}
                             error={this.state.error.nombre !== ""}
+                            value={this.state.inputsValues.nombre}
+                            onChangeText={(e) => this.readInput("nombre", e)}
                         />
                         <HelperText type="error" visible={true}> {this.state.error.nombre}</HelperText>
                         <TextInput
                             label="LastName"
                             mode="outlined"
                             style={mt_2}
+                            value={this.state.inputsValues.apellido}
                             error={this.state.error.apellido !== ""}
+                            onChangeText={(e) => this.readInput("apellido", e)}
                         />
                         <HelperText type="error" visible={true}> {this.state.error.apellido}</HelperText>
                         <TextInput
@@ -184,6 +231,8 @@ class SignUp extends React.Component {
                             mode="outlined"
                             style={mt_2}
                             error={this.state.error.email !== ""}
+                            value={this.state.inputsValues.email}
+                            onChangeText={(e) => this.readInput("email", e)}
                         />
                         <HelperText type="error" visible={true}> {this.state.error.email}</HelperText>
                         <TextInput
@@ -191,35 +240,40 @@ class SignUp extends React.Component {
                             mode="outlined"
                             style={mt_2}
                             secureTextEntry={!this.state.visiblePassword}
+                            value={this.state.inputsValues.contrasena}
                             error={this.state.error.contrasena !== ""}
+                            onChangeText={(e) => this.readInput("contrasena", e)}
                             right={<TextInput.Icon name={this.state.visiblePassword ? "eye" : "eye-off"} onPress={() => this.changeVisibilityPassword()} />}
                         />
                         <HelperText type="error" visible={true}> {this.state.error.contrasena}</HelperText>
                         <TextInput
                             label="Enter the URL of your picture"
                             mode="outlined"
+                            value={this.state.inputsValues.usuarioAvatar}
                             style={[mt_2]}
+                            onChangeText={(e) => this.readInput("usuarioAvatar", e)}
                             error={this.state.error.usuarioAvatar !== ""}
                         />
                         <HelperText type="error" visible={true} style={mb_3}> {this.state.error.usuarioAvatar}</HelperText>
-
-                        <MyDropDownPicker countries={this.state.countries} cambio={this.readInput.bind(this)} />
+                        <MyDropDownPicker countries={this.state.countries} cambio={this.readInput.bind(this)}  />
+                        
                         <Button
                             mode="contained"
-                            onPress={() => this.send(this.state.inputsValues)}
-                            style={[mt_3, w_auto]}
+                            onPress={!this.state.loadingRequest && (() => this.send(this.state.inputsValues))}
+                            style={[myStyles.mt_3, myStyles.w_auto]}
+                            icon={this.state.loadingRequest ? () => <ActivityIndicator color="white" /> : ""}
                         >
                             SIGN UP !
-                    </Button>
+                        </Button>
 
                         <Text style={[mt_3, mx_3, text_center]} >Have an account?</Text>
-                        <Button onPress={() => console.log(this.props.navigation.navigate("LogIn"))}>
+                        <Button onPress={() => this.props.navigation.navigate("LogIn")}>
                             <Text style={styles.callToActionForm}>Log In </Text>
                         </Button>
 
                     </View>
                 </View>
-                <View style= {{height:20}} />
+                <View style={{ height: 20 }} />
             </ScrollView>
         )
     }
@@ -237,7 +291,7 @@ const styles = StyleSheet.create({
     styleTitle: {
         color: "white",
         fontSize: 32,
-        marginTop:10,
+        marginTop: 10,
 
     },
     callToActionForm: {
@@ -246,6 +300,8 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 })
+const mapDispatchToProps = {
+    signUpUser: authActions.signUpUser
+}
 
-
-export default SignUp;
+export default connect(null, mapDispatchToProps)(SignUp);

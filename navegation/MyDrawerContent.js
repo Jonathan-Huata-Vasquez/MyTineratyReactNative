@@ -25,7 +25,7 @@ function DrawerContent(props) {
                                     <Avatar.Image size={50} source={{ uri: userLogged.usuarioAvatar }} />
                                     <View style={{ marginLeft: 15, flexDirection: "column" }}>
                                         <Title style={styles.title}>{userLogged.nombreCompleto}</Title>
-                                        <Caption style={styles.caption}>user@gamil.com</Caption>
+                                        <Caption style={styles.caption}>{userLogged.email}</Caption>
                                     </View>
                                 </>
                                 :

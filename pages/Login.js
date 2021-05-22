@@ -20,6 +20,22 @@ class LogIn extends React.Component {
         loadingRequest:false
     }
 
+    componentDidMount(){
+        this.props.navigation.addListener("focus",()=>{
+            const initialState = {
+                visiblePassword: false,
+                inputsValues: {
+                    email: "",
+                    contrasena: ""
+                },
+                error: "",
+                visibleBanner: false,
+                loadingRequest:false
+            };
+            this.setState({...initialState});
+        })
+    }
+
     setError(anError) {
         this.setState({
             ...this.state,
@@ -114,12 +130,14 @@ class LogIn extends React.Component {
                     <TextInput
                         label="Email"
                         mode="outlined"
+                        value={this.state.inputsValues.email}
                         style={myStyles.mt_2}
                         onChangeText={(e) => this.readInput("email", e)}
                     />
                     <TextInput
                         label="Password"
                         mode="outlined"
+                        value={this.state.inputsValues.contrasena}
                         style={myStyles.mt_2}
                         onChangeText={(e) => this.readInput("contrasena", e)}
                         secureTextEntry={!this.state.visiblePassword}
@@ -160,7 +178,7 @@ class LogIn extends React.Component {
                     </Button>
 
                 </View>
-                <View style= {{height:20}} />
+                
                 
             </View>
         )
