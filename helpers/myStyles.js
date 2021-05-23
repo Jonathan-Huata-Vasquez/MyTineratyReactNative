@@ -107,11 +107,15 @@ export const myContainer = StyleSheet.create({
         flex:1,
         alignItems:"center",
         justifyContent:"center",
-        color:"white"
+        color:"white",
+        paddingTop:40
     },
     scrollBody:{
         backgroundColor: "#343a40",
         flex:1,
         color:"white"
+    },
+    backgroundMainColor :{
+        backgroundColor: "#343a40",
     }
 })
