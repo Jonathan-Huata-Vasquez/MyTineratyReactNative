@@ -108,7 +108,8 @@ export const myContainer = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         color:"white",
-        paddingTop:40
+        paddingTop:40,
+        width:"100%"
     },
     scrollBody:{
         backgroundColor: "#343a40",
