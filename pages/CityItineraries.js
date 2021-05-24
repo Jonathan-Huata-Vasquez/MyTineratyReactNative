@@ -1,13 +1,39 @@
 import React from 'react';
 import {Text,View,Button,StyleSheet} from 'react-native'
 import {myContainer} from '../helpers/myStyles'
-import { FAB } from 'react-native-paper';
+import { FAB,ActivityIndicator,Avatar } from 'react-native-paper';
+import {connect} from 'react-redux'
+import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
 class CityItineraries extends React.Component {
     
+    componentDidMount(){
+        if(this.props.itinerariesOfCity.length === 0){
+            this.props.getItinerariesWithActivities(this.props.route.params.idCity)
+        }
+    }
+
     render(){
-        const {navigation} = this.props;
+        const {navigation,loading,itinerariesOfCity} = this.props;
+        console.log(this.props);
+
+        if (loading) {
+            return (
+                <View style={myContainer.body}>
+                    <ActivityIndicator color="rgb(12,173,12)" size={50} />
+                </View>
+            )
+        }
+
         return (
             <View style={myContainer.body}>
+                {itinerariesOfCity.map(itinerary=>{
+                    return (
+                        <Avatar.Image key={itinerary._id} size={24} source={{uri:itinerary.autorFotoHost}} />
+                    )
+                })}
+
+
+
                 <FAB
                     style={styles.fab}
                     small = {false}
@@ -30,4 +56,18 @@ const styles = StyleSheet.create({
         backgroundColor:"red"
     },
 })
-export default CityItineraries;
+
+const mapStateToProps = (state) => {
+    return {
+        itinerariesOfCity : state.cityItinerariesReducer.itinerariesOfCity,
+        loading : state.cityItinerariesReducer.loading
+    }
+}
+
+const mapDispatchToProps = {
+    getItinerariesWithActivities : cityItinerariesAction.getItinerariesWithActivities,
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(CityItineraries);
+

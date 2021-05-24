@@ -181,7 +181,6 @@ class SignUp extends React.Component {
         return (
             
             <ScrollView style={myContainer.scrollBody}>
-                {console.log("renderizando")}
                 <View style={[styles.stylePosition, myContainer.body]}>
                     <Header openDrawer={navigation.openDrawer} />
                     <Title style={[styles.styleTitle]}> Log in to your account </Title>

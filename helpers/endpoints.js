@@ -7,4 +7,6 @@ export const endpointItinerariesLike = "https://mytinerary-jonathan-huata.heroku
 export const endpointUserSignUp = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/signup";
 export const endpointUserLogIn = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/login";
 export const endpointUserLogInToken = "https://mytinerary-jonathan-huata.herokuapp.com/api/user/loginLS";
-export const endpointActivitiesItinerary = "https://mytinerary-jonathan-huata.herokuapp.com/api/activities/itinerary";
+//export const endpointActivitiesItinerary = "https://mytinerary-jonathan-huata.herokuapp.com/api/activities/itinerary";
+export const endpointItinerariesWithActivities = "https://mytinerary-jonathan-huata.herokuapp.com/api/itinerariesAndActivities";
+export const endpointItinerariesWithActivitiesLogged = "https://mytinerary-jonathan-huata.herokuapp.com/api/itinerariesAndActivitiesLogueado";

@@ -7,9 +7,7 @@ const authActions = {
     signUpUser: (inputsValues) => {
         return async (dispatch, getState) => {
             try {
-                console.log(inputsValues)
                 const { data } = await axios.post(endpointUserSignUp, inputsValues)
-                console.log(data)
                 if (!data.success) {
                     return data.errores;
                 }

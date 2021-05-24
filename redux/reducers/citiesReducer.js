@@ -16,7 +16,6 @@ const citiesReducer = (state = initialState, action) => {
             }
 
         case "GET_FILTERED_CITIES":
-            console.log("reducer")
             let newFilteredCities ;
             let inputValue = action.payload;
             if(inputValue === ""){

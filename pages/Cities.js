@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, StyleSheet, Image, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { myContainer, myStyles } from '../helpers/myStyles';
-import { FAB, ActivityIndicator, TextInput } from 'react-native-paper';
+import { FAB, ActivityIndicator, TextInput, TouchableRipple } from 'react-native-paper';
 import { connect } from 'react-redux';
 import citiesActions from '../redux/actions/citiesActions'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -19,8 +19,6 @@ class Cities extends React.Component {
     render() {
         const { navigation, stateCities } = this.props;
         const { mt_2, mt_3, mt_5, mx_3, m } = myStyles
-
-        console.log(this.props)
 
         if (stateCities.loading) {
             return (
@@ -43,34 +41,39 @@ class Cities extends React.Component {
 
 
                 <View style={styles.filteredCitiesContainer}>
-                    
-                        {stateCities.filteredCities.length === 0
-                            ?
-                            <View style={styles.cityNotFoundContainer}>
-                                <ImageBackground source={require('../assets/CityNotFound.jpg')} style={styles.cityNotFoundBackgroundImage} imageStyle={{ borderRadius: 15}}>
-                                    <View style={myContainer.container}>
-                                        <Text style={{fontSize:25}}>It seems that the city you are looking for is not yet ... Try another!</Text>
-                                    </View>
-                                </ImageBackground>
-                            </View>
 
-                            :(
+                    {stateCities.filteredCities.length === 0
+                        ?
+                        <View style={styles.cityNotFoundContainer}>
+                            <ImageBackground source={require('../assets/CityNotFound.jpg')} style={styles.cityNotFoundBackgroundImage} imageStyle={{ borderRadius: 15 }}>
+                                <View style={myContainer.container}>
+                                    <Text style={{ fontSize: 25 }}>It seems that the city you are looking for is not yet ... Try another!</Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+
+                        : (
                             <ScrollView style={{ height: "90%" }}>
-                            {stateCities.filteredCities.map(city => {
+                                {stateCities.filteredCities.map(city => {
                                     return (
-                                        <View style={[styles.filteredCityContainer, myContainer.backgroundMainColor]} key={city._id}>
-                                            <Image style={styles.imageCity} source={{ uri: city.fotoHost }} />
-                                            <View style={{ width: "30%" }}>
-                                                <Text style={styles.cityName}>{city.nombreCiudad}</Text>
-                                                <Text style={styles.countryName}>{city.pais}</Text>
+                                        <TouchableRipple
+                                            key={city._id}
+                                            onPress={() => navigation.navigate("CityItineraries", { idCity: city._id })}
+                                        >
+                                            <View style={[styles.filteredCityContainer, myContainer.backgroundMainColor]} >
+                                                <Image style={styles.imageCity} source={{ uri: city.fotoHost }} />
+                                                <View style={{ width: "30%" }}>
+                                                    <Text style={styles.cityName}>{city.nombreCiudad}</Text>
+                                                    <Text style={styles.countryName}>{city.pais}</Text>
+                                                </View>
                                             </View>
-                                        </View>
+                                        </TouchableRipple>
                                     )
                                 })}
                             </ScrollView>
-                            )
-                        }
-                    
+                        )
+                    }
+
                 </View>
 
 
@@ -124,14 +127,14 @@ const styles = StyleSheet.create({
     cityNotFoundContainer: {
         width: "90%",
         height: "80%",
-        borderRadius:25,
+        borderRadius: 25,
     },
-    cityNotFoundBackgroundImage : { 
-        height: "100%", 
-        width: "100%", 
-        alignItems:'center',
-        justifyContent:'center',
-        
+    cityNotFoundBackgroundImage: {
+        height: "100%",
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+
     }
 
 
