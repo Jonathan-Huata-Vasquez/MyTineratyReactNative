@@ -26,9 +26,9 @@ const cityItineraryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 itinerariesOfCity: itinerariosActualizados
-            } 
-        case "RESTAURAR_ITINERARIOS":
-            return initialState;*/
+            } */
+        case "CLEAR_ITINERARY_OF_CITY":
+            return initialState;
         default:
             return state;
     }

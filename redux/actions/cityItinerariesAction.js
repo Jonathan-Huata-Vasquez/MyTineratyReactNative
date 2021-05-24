@@ -39,25 +39,12 @@ const cityItinerariesActions = {
             
         }
     },
-    /*restaurarItinerarios: ()=>{
+    clearItineraries: ()=>{
         return (dispatch,getState) =>{
-            dispatch({type:"RESTAURAR_ITINERARIOS",payload:null});
+            dispatch({type:"CLEAR_ITINERARY_OF_CITY",payload:null});
         }
     },
-    cargarActividadesDeItinerario :  (itinerarioId) =>{  
-        return async ()=>{
-            try {
-                let {data} = await axios.get(`${endpointActivitiesItinerary}/${itinerarioId}`)
-                if(data.success)
-                    return data.respuesta;
-                else
-                    showToastMessage("error",data.error)    
-            } catch (err) {
-                console.log(err);
-                toastMessageError500();
-            }
-        }
-    },
+    /*
     likearItinerario : (token,idItinerario) => {
         return async (dispatch,getState) => {
             try{

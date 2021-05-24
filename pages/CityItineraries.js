@@ -1,23 +1,22 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet, Image, FlatList } from 'react-native'
+import { Text, View, Button, StyleSheet, Image, FlatList, ImageBackground } from 'react-native'
 import { myContainer } from '../helpers/myStyles'
-import { FAB, ActivityIndicator, Avatar, IconButton } from 'react-native-paper';
+import { FAB, ActivityIndicator } from 'react-native-paper';
 import { connect } from 'react-redux'
 import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
+import FadeCarousel from "rn-fade-carousel";
+import ItineraryWithOutComments from '../components/ItineraryWithOutComments'
+
 class CityItineraries extends React.Component {
 
     componentDidMount() {
         if (this.props.itinerariesOfCity.length === 0) {
             this.props.getItinerariesWithActivities(this.props.route.params.idCity)
         }
+        console.log(this.props.navigation)
     }
 
 
-    createNComponents(n, component) {
-        let aux = Array.from(new Array(n), (_, indice) => <View key={indice}>{component}</View>)
-        return aux;
-    }
-    
     render() {
         const { navigation, loading, itinerariesOfCity } = this.props;
 
@@ -30,27 +29,37 @@ class CityItineraries extends React.Component {
         }
 
         const renderItem = ({ item }) => (
-        <Item itinerary={item} />
+            <ItineraryWithOutComments itinerary={item} navigation={navigation} />
         );
-
         return (
-            <View style={[myContainer.body]}>
-                <FlatList
-                    data={itinerariesOfCity}
-                    renderItem={renderItem}
-                    keyExtractor={item => item._id}
-                    style={{width:"90%",height:"80%"}}
-                    contentContainerStyle={{flexGrow:1,alignItems:"center"}}
-                    
-                />
+            <View style={[myContainer.body,{alignItems:'center'}]}>
+                {itinerariesOfCity.length === 0
+                    ?
+                    <View style={styles.itineraryNotFoundContainer}>
+                        <ImageBackground source={require('../assets/itinerarios/withOutOfItineraries.jpg')} style={styles.itinerariesNotFoundBackgroundImage} imageStyle={{ borderRadius: 15 }}>
+                            <View style={myContainer.container}>
+                                <Text style={{ fontSize: 25 }}>Sorry, we don't have any itinerary in this city yet :(</Text>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                    :
+                    <FlatList
+                        data={itinerariesOfCity}
+                        renderItem={renderItem}
+                        keyExtractor={item => item._id}
+                        style={{ width: "90%", height: "80%" }}
+                        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+                        extraData={navigation}
+                    />
+                }
+
                 <FAB
                     style={styles.fab}
                     small={false}
                     icon="magnify"
                     onPress={() => navigation.navigate("Cities")}
                 />
-                <Text>Hola este es CityItineraries</Text>
-                <Button title="Go Itinerary! " onPress={() => navigation.navigate("Itinerary")} />
+                
             </View>
         )
     }
@@ -67,105 +76,27 @@ const styles = StyleSheet.create({
     itineraryContainer: {
         width: "90%",
         height: 200,
-        borderColor: "grey",
-        borderWidth: 1,
-        marginTop: 20
+        marginTop: 20,
 
     },
-    imageActivity: {
-        width: 350,
-        height: 120,
-    },
-    itineraryInfo: {
+    itinerariesNotFoundBackgroundImage: {
+        height: "100%",
         width: "100%",
-        flexDirection: "row",
-        flexWrap: "nowrap",
-        flex: 1,
-        alignItems: "center"
-    },
-    avatar: {
-        marginRight: 10,
-        alignSelf:'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        
 
     },
-    titleItinerary: {
-        color: "white",
-        fontSize: 17
-    },
-    textItinerary: {
-        color: "rgb(187,185,185)"
-
-    },
-    icon: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-
+    itineraryNotFoundContainer: {
+        width: "90%",
+        height: "80%",
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
-    iconsContainer: {
-        //width:"80%",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        textAlign: "center",
-    }
 
 })
-
-const Item = ({ itinerary }) => (
-    <View style={styles.itineraryContainer} >
-        <Image style={styles.imageActivity} source={{ uri: itinerary.activities[0].imagenHost }} />
-        <View style={styles.itineraryInfo}>
-            <Avatar.Image size={50} source={{ uri: itinerary.autorFotoHost }} style={styles.avatar} />
-            <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={styles.titleItinerary}>{itinerary.titulo}</Text>
-                    <View style={styles.icon}>
-                        <Text style={styles.textItinerary}>{itinerary.likes} </Text>
-                        <IconButton
-                            icon={itinerary.estaLikeado ? "cards-heart" : "heart-outline"}
-                            color="#f50057"
-                            size={17}
-                            style={{ margin: 0, marginRight: 10 }}
-                            onPress={() => console.log('Pressed')}
-                        />
-                    </View>
-                </View>
-
-                <Text style={styles.textItinerary}>Author: {itinerary.autorNombre}</Text>
-                <View style={styles.iconsContainer}>
-
-                    <View style={styles.icon}>
-                        <Text style={styles.textItinerary}>Price:  </Text>
-                        {[...Array(itinerary.precio)].map((element,indice) =>
-                            <IconButton
-                                key={indice}
-                                icon="cash"
-                                color="#22bd22"
-                                size={20}
-                                style={{ margin: 0, padding: 0 }}
-                            />)
-                        }
-
-                    </View>
-                    <View style={styles.icon}>
-                        <Text style={styles.textItinerary}>{itinerary.duracion} </Text>
-
-                        <IconButton
-                            icon="clock-time-four-outline"
-                            color="rgb(72,144,226)"
-                            size={17}
-                            style={{ margin: 0, marginRight: 10 }}
-                        />
-
-                    </View>
-                </View>
-
-            </View>
-        </View>
-    </View>
-)
 
 const mapStateToProps = (state) => {
     return {

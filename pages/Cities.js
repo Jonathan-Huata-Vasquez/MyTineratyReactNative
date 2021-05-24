@@ -4,6 +4,7 @@ import { myContainer, myStyles } from '../helpers/myStyles';
 import { FAB, ActivityIndicator, TextInput, TouchableRipple } from 'react-native-paper';
 import { connect } from 'react-redux';
 import citiesActions from '../redux/actions/citiesActions'
+import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import DismissKeyboard from '../components/DismissKeyboard'
@@ -14,6 +15,9 @@ class Cities extends React.Component {
         if (this.props.stateCities.cities.length === 0) {
             this.props.getAllCities();
         }
+        this.props.navigation.addListener("focus",()=>{
+            this.props.clearItineraries();
+        })
     }
 
     render() {
@@ -73,7 +77,6 @@ class Cities extends React.Component {
                             </ScrollView>
                         )
                     }
-
                 </View>
 
 
@@ -148,7 +151,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getAllCities: citiesActions.getAllCities,
-    getFilteredCities: citiesActions.getFilteredCities
+    getFilteredCities: citiesActions.getFilteredCities,
+    clearItineraries : cityItinerariesAction.clearItineraries,
 }
 
 
