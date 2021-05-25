@@ -6,7 +6,6 @@ import {showToastMessage,toastMessageError500} from '../../helpers/myToasts'
 
 const cityItinerariesActions = {
     getItinerariesWithActivities : (idCity)=>{
-        console.log("Action dice idCiudad: ",idCity)
         return async (dispatch,getState)  => {
             let userLogged = getState().authReducer.userLogged;
             try{

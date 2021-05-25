@@ -8,7 +8,7 @@ const ItineraryWithOutComments = ({ itinerary , navigation }) => {
         return  <Image source={{uri:activity.imagenHost}} style={styles.imageActivity} resizeMode="cover" />
     })
     return (
-        <TouchableRipple onPress = {()=>{navigation.navigate("Itinerary")}}>
+        <TouchableRipple onPress = {()=>{navigation.navigate("Itinerary",{itinerary})}}>
         <View style={styles.itineraryContainer} >
             {/*<Image style={styles.imageActivity} source={{ uri: itinerary.activities[0].imagenHost }} />*/}
             <FadeCarousel

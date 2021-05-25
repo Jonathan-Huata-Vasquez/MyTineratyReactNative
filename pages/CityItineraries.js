@@ -1,10 +1,9 @@
 import React from 'react';
-import { Text, View, Button, StyleSheet, Image, FlatList, ImageBackground } from 'react-native'
+import { Text, View, StyleSheet, FlatList, ImageBackground } from 'react-native'
 import { myContainer } from '../helpers/myStyles'
 import { FAB, ActivityIndicator } from 'react-native-paper';
 import { connect } from 'react-redux'
 import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
-import FadeCarousel from "rn-fade-carousel";
 import ItineraryWithOutComments from '../components/ItineraryWithOutComments'
 
 class CityItineraries extends React.Component {
@@ -13,7 +12,7 @@ class CityItineraries extends React.Component {
         if (this.props.itinerariesOfCity.length === 0) {
             this.props.getItinerariesWithActivities(this.props.route.params.idCity)
         }
-        console.log(this.props.navigation)
+        
     }
 
 

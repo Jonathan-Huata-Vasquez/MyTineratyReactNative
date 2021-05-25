@@ -100,6 +100,7 @@ export const myContainer = StyleSheet.create({
         textAlign: "center",
         borderRadius: 6,
         justifyContent:"center",
+        
     },
 
     body: {
@@ -109,6 +110,8 @@ export const myContainer = StyleSheet.create({
         justifyContent:"center",
         color:"white",
         paddingTop:40,
+        
+        paddingBottom:30,
         width:"100%"
     },
     scrollBody:{
