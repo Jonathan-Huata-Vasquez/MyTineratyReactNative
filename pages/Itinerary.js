@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react'
 import { Text, View, StyleSheet, ScrollView, Image } from 'react-native'
-import { Avatar, FAB, IconButton, Chip, TouchableRipple } from 'react-native-paper'
+import { Avatar, FAB, IconButton, Chip, TouchableRipple, } from 'react-native-paper'
 import { myContainer } from '../helpers/myStyles'
 import ImageView from "react-native-image-viewing";
-
+import CommentUser from '../components/CommentUser'
+import CommentNotTheUser from '../components/CommentNotTheUser'
+import DismissKeyboard from '../components/DismissKeyboard'
 const Itinerary = (props) => {
     const [stateImageView, setStateImageView] = useState({
         visible: false,
@@ -13,16 +15,14 @@ const Itinerary = (props) => {
     let itinerary = props.route.params.itinerary
     const images = itinerary.activities.map(activity => ({ uri: activity.imagenHost }))
 
-
-
     return (
         <ScrollView style={{ height: "90%", width: "100%" }}>
             <View style={[myContainer.body,]}>
                 <View style={styles.infoItinerary}>
-                    <View style={{width:"25%"}}>
+                    <View style={{ width: "25%" }}>
                         <Avatar.Image size={85} source={{ uri: itinerary.autorFotoHost }} style={{ width: 85, height: 85, }} />
                     </View>
-                    <View style={{marginLeft:20,width:"70%"}}>
+                    <View style={{ marginLeft: 10, width: "70%" }}>
                         <Text style={styles.title}>{itinerary.titulo}</Text>
                         <Text style={styles.author}>by: {itinerary.autorNombre}</Text>
                     </View>
@@ -47,7 +47,7 @@ const Itinerary = (props) => {
                             <Text style={styles.amount}>{itinerary.precio} </Text>
                             <IconButton
                                 icon="cash"
-                                color="#22bd22"
+                                color="#3dff65"
                                 size={23}
                                 style={{ margin: 0, }}
                                 onPress={() => console.log('Pressed')}
@@ -96,11 +96,13 @@ const Itinerary = (props) => {
                     />
                 </View>
                 <View style={styles.containerBoxComments}>
-                    <Text style={styles.title}>Leave a Comment</Text>
+                    <Text style={[styles.title, { textAlign: 'center' }]}>Leave a Comment</Text>
+                    {itinerary.comentarios.map(comment=> (
+                        comment.esModificable?  <CommentUser key={comment._id} comment={comment}/>: <CommentNotTheUser key={comment._id} comment={comment}/>
+                    ))}
+                    
+                    
                 </View>
-
-
-
             </View>
         </ScrollView>
     )
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         width: "100%",
         flexWrap: "nowrap",
-        alignItems:'center'
+        alignItems: 'center'
     },
     title: {
         width: "90%",
@@ -155,8 +157,10 @@ const styles = StyleSheet.create({
     },
     containerBoxComments: {
         marginTop: 20,
-        alignItems: "center"
-    }
+        alignItems: "center",
+        width: "90%"
+    },
+    
 })
 
 export default Itinerary;

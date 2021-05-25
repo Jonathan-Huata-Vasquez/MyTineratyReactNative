@@ -46,7 +46,7 @@ const ItineraryWithOutComments = ({ itinerary , navigation }) => {
                                 <IconButton
                                     key={indice}
                                     icon="cash"
-                                    color="#22bd22"
+                                    color="#3dff65"
                                     size={20}
                                     style={{ margin: 0, padding: 0 }}
                                 />)
