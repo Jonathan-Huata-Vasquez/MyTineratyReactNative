@@ -1,7 +1,7 @@
 import axios from "axios";
 import {endpointCities,endpointActivitiesItinerary,
     endpointItinerariesLike,endpointItinerariesWithActivities,endpointItinerariesWithActivitiesLogged,
-    endpointItinerariesModificarComentario} from "../../helpers/endpoints"
+    endpointItinerariesModifyComment} from "../../helpers/endpoints"
 import {showToastMessage,toastMessageError500} from '../../helpers/myToasts'
 
 const cityItinerariesActions = {
@@ -43,6 +43,11 @@ const cityItinerariesActions = {
             dispatch({type:"CLEAR_ITINERARY_OF_CITY",payload:null});
         }
     },
+    setCurrentItinerary:(idItinerary) =>{
+        return (dispatch) =>{
+            dispatch({type:"SET_CURRENT_ITINERARY",payload:idItinerary});
+        }
+    },
     /*
     likearItinerario : (token,idItinerario) => {
         return async (dispatch,getState) => {
@@ -58,20 +63,21 @@ const cityItinerariesActions = {
                 return {success :false}    
             }
         }
-    },
-    modificarComentario : (idItinerario,token,body) => {
+    },*/
+    modifyComment : (idItinerary,token,body) => {
         const {idComentario,comentario,accion} = body;
-
+        console.log(body,idItinerary,comentario)
         return async (dispatch) =>{
             try{
-                let {data} = await axios.put(`${endpointItinerariesModificarComentario  }/${idItinerario}`,{idComentario,comentario,accion},{
+                let {data} = await axios.put(`${endpointItinerariesModifyComment  }/${idItinerary}`,{idComentario,comentario,accion},{
+                //let {data} = await axios.put(`http://localhost:4000/api/itineraries/modificarComentario/${idItinerary}`,{idComentario,comentario,accion},{
                     headers:{
                         'Authorization': 'Bearer ' + token,    
                     }
                 });
-                
+                console.log(data)
                 data.success
-                ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
+                ? dispatch({type:"UPDATE_ITINERARY",payload:data.respuesta}) 
                 : showToastMessage("error",data.error);
                 return data.success;
                 
@@ -80,7 +86,7 @@ const cityItinerariesActions = {
                 toastMessageError500();
             }   
         }
-    },*/
+    },
     
 
 }

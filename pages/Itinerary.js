@@ -7,13 +7,16 @@ import ImageView from "react-native-image-viewing";
 import CommentUser from '../components/CommentUser'
 import CommentNotTheUser from '../components/CommentNotTheUser'
 import DismissKeyboard from '../components/DismissKeyboard'
+import {connect} from 'react-redux'
+
 const Itinerary = (props) => {
     const [stateImageView, setStateImageView] = useState({
         visible: false,
         index: 0
     });
-    let itinerary = props.route.params.itinerary
-    const images = itinerary.activities.map(activity => ({ uri: activity.imagenHost }))
+    let itinerary = props.currentItinerary
+    
+    const images = itinerary.activities.map(activity => ({ uri: activity.imagenHost }));
 
     return (
         <ScrollView style={{ height: "90%", width: "100%" }}>
@@ -98,7 +101,7 @@ const Itinerary = (props) => {
                 <View style={styles.containerBoxComments}>
                     <Text style={[styles.title, { textAlign: 'center' }]}>Leave a Comment</Text>
                     {itinerary.comentarios.map(comment=> (
-                        comment.esModificable?  <CommentUser key={comment._id} comment={comment}/>: <CommentNotTheUser key={comment._id} comment={comment}/>
+                        comment.esModificable?  <CommentUser key={comment._id} idItinerary={itinerary._id} comment={comment}/>: <CommentNotTheUser key={comment._id} comment={comment}/>
                     ))}
                     
                     
@@ -162,5 +165,10 @@ const styles = StyleSheet.create({
     },
     
 })
+const mapStateToProps = (state)  => {
+    return {
+        currentItinerary: state.cityItinerariesReducer.currentItinerary
+    }
+}
 
-export default Itinerary;
+export default connect(mapStateToProps)(Itinerary);

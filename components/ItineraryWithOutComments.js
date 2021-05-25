@@ -2,13 +2,15 @@ import React from 'react';
 import { Text, View,  StyleSheet, Image } from 'react-native'
 import {  Avatar, IconButton, TouchableRipple} from 'react-native-paper';
 import FadeCarousel from "rn-fade-carousel";
+import {connect} from 'react-redux';
+import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
 
-const ItineraryWithOutComments = ({ itinerary , navigation }) => {
+const ItineraryWithOutComments = ({ itinerary , navigation, setCurrentItinerary }) => {
     const slides = itinerary.activities.map(activity => {
         return  <Image source={{uri:activity.imagenHost}} style={styles.imageActivity} resizeMode="cover" />
     })
     return (
-        <TouchableRipple onPress = {()=>{navigation.navigate("Itinerary",{itinerary})}}>
+        <TouchableRipple onPress = {()=>{navigation.navigate("Itinerary"); setCurrentItinerary(itinerary._id)}}>
         <View style={styles.itineraryContainer} >
             {/*<Image style={styles.imageActivity} source={{ uri: itinerary.activities[0].imagenHost }} />*/}
             <FadeCarousel
@@ -123,5 +125,8 @@ const styles = StyleSheet.create({
 
 })
 
+const mapDispatchToProps = {
+    setCurrentItinerary : cityItinerariesAction.setCurrentItinerary
+}
 
-export default ItineraryWithOutComments;
+export default connect(null,mapDispatchToProps)(ItineraryWithOutComments);

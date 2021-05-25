@@ -1,5 +1,6 @@
 const initialState = {
     itinerariesOfCity: [],
+    currentItinerary:null,
     loading: true,
 }
 
@@ -17,16 +18,36 @@ const cityItineraryReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
             }*/
-        /*case "ACTUALIZAR_ITINERARIO":
-            let itinerariosActualizados = state.itinerariesOfCity.map(itinerario =>{
-                if(itinerario._id === action.payload._id)
-                    return action.payload;
-                return itinerario;
+        case "UPDATE_ITINERARY":
+            
+            let itinerariesUpdated = state.itinerariesOfCity.map(itinerary =>{
+                if(itinerary._id === action.payload._id){
+                    const activities  = itinerary.activities;
+                    console.log("asi se ve espredeado",{...action.payload,})
+                    return {
+                        ...action.payload,
+                        activities
+                    }
+                }
+                return itinerary;
             })
+
+            let updatedCurrentItinerary = state.currentItinerary;
+            if(state.currentItinerary._id === action.payload._id)
+                updatedCurrentItinerary = {...state.currentItinerary,...action.payload}
             return {
                 ...state,
-                itinerariesOfCity: itinerariosActualizados
-            } */
+                itinerariesOfCity: itinerariesUpdated,
+                currentItinerary: updatedCurrentItinerary
+            } 
+        case "SET_CURRENT_ITINERARY":
+            let newCurrentItinerary = state.itinerariesOfCity.find(itinerary => itinerary._id === action.payload)
+            
+            return {
+                ...state,
+                currentItinerary:{...state.currentItinerary,...newCurrentItinerary}
+            }
+
         case "CLEAR_ITINERARY_OF_CITY":
             return initialState;
         default:

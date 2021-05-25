@@ -40,34 +40,31 @@ const authActions = {
         }
     },
 
-    /*forcedLogIn: (token, history) => {
+    forcedLogIn: (token) => {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.get(endpointUserLogInToken, {
                     headers: { 'Authorization': 'Bearer ' + token }
                 })
                 dispatch({
-                    type: "LOGUEAR_USER", payload: {
+                    type: "LOG_IN_USER", payload: {
                         ...data.respuesta,
                         token
                     }
                 });
             }
             catch (err) {
-                alert("Error 500 , please come back later")
+                toastMessageError500();
                 console.log(err)
                 if (err.response && err.response.status === 401) {
-                    alert("try harder next time")
-                    AsyncStorage.clear().catch(error => console.log(error))
-                    window.location.reload(true);
-                    //history.push("/");
+                    showToastMessage("error","try harder next time")
                 }
-                toastMessageError500();
-                localStorage.clear();
+                AsyncStorage.clear().catch(error => console.log(error))
+                
             }
         }
     },
-    */
+    
     signOutUser: () => {
         return (dispatch, getState) => {
             showToastMessage("info", "Come back later ");
