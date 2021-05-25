@@ -8,12 +8,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 import { createStore, applyMiddleware } from 'redux'
-import { connect, Provider as ProviderStore } from 'react-redux'
+import {  Provider as ProviderStore } from 'react-redux'
 import thunk from 'redux-thunk'
 import mainReducer from './redux/reducers/mainReducer'
 
-import authAction from './redux/actions/authAction'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const myStore = createStore(mainReducer, applyMiddleware(thunk))
 
@@ -29,14 +28,7 @@ const themePaper = {
 
 const App = (props) => {
 
-  /*AsyncStorage.getItem("token")
-    .then(token => {
-      if (!props.userLogged && token && token !== "undefined") {
-        forcedLogIn(JSON.parse(token))
-      }
-    })
-    .catch(err => console.log(err))
-*/
+  
   return (
     //dotamos una navegacion  a nuestra aplicacion , independientemente del tipo
     <ProviderStore store={myStore}>

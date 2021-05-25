@@ -1,18 +1,19 @@
 import React from 'react';
 import { useState } from 'react'
 import { Text, View, StyleSheet, ScrollView, } from 'react-native'
-import { Avatar, IconButton, Menu, Button, TextInput, ActivityIndicator } from 'react-native-paper'
+import { Avatar, IconButton, Menu, Button, TextInput, ActivityIndicator, Modal, Portal } from 'react-native-paper'
 import { myContainer } from '../helpers/myStyles'
 import DismissKeyboard from '../components/DismissKeyboard'
 import { connect } from 'react-redux';
 import cityItinerariesActions from '../redux/actions/cityItinerariesAction'
-import {showToastMessage,toastMessageError500} from '../helpers/myToasts'
+import { showToastMessage, toastMessageError500 } from '../helpers/myToasts'
 
-const CommentUser = ({ comment,idItinerary,userLogged,modifyComment }) => {
+
+const CommentUser = ({ comment, idItinerary, userLogged, modifyComment }) => {
     const [visibleMenu, setVisibleMenu] = useState(false);
     const openMenu = () => setVisibleMenu(true);
     const closeMenu = () => setVisibleMenu(false);
-    console.log(idItinerary)
+
     const [modeEditComment, setModeEditComment] = useState({
         visible: false,
         newComment: comment.comentario,
@@ -24,36 +25,52 @@ const CommentUser = ({ comment,idItinerary,userLogged,modifyComment }) => {
         })
     };
     const readInputEditComment = (newComment) => {
-        
         setModeEditComment({
             ...modeEditComment,
             newComment
         })
     }
-    
-    const [loadingRequest,setLoadingRequest] = useState(false);
 
+    const [loadingRequest, setLoadingRequest] = useState(false);
     const requestModifyComment = async (accion) => {
-        console.log("entro a requestModifyComment")
         if (!userLogged)
             return showToastMessage("info", "You must be logged in to comment it");
         let comentario;
-        
+
         switch (accion) {
             case "editar":
                 comentario = modeEditComment.newComment;
                 break;
             case "borrar":
-                //cerrarModal();
+                hideModal();
                 break;
             default:
                 return console.log("unknown action " + accion)
         }
         setLoadingRequest(true);
-        console.log("voy a entrar a modifyComment")
-        await modifyComment(idItinerary, userLogged.token, { idComentario:comment._id, comentario, accion })
+        await modifyComment(idItinerary, userLogged.token, { idComentario: comment._id, comentario, accion })
         setLoadingRequest(false);
-        toggleModeEditComment()
+        if(accion === "editar")
+            toggleModeEditComment();
+    }
+
+
+
+    const hideModal = () => setStateModal({ ...stateModal, visible: false });
+
+    const [stateModal, setStateModal] = useState({
+        visible: false,
+        title: "",
+        body: "",
+        fAccept: null,
+    })
+
+    const showModalDeleteComment = (body) => {
+        setStateModal({
+            visible: true,
+            title: "Are you sure you want to delete the comment ?",
+            body,
+        })
     }
 
     return (
@@ -71,32 +88,34 @@ const CommentUser = ({ comment,idItinerary,userLogged,modifyComment }) => {
                         size={28}
                         style={{ margin: 0, }}
                         onPress={() => toggleModeEditComment()}
-                        disabled ={loadingRequest}
+                        disabled={loadingRequest}
                     />
-                    :
-                    <Menu
-                        visible={visibleMenu}
-                        onDismiss={closeMenu}
-                        style={{ marginTop: 15, }}
-                        anchor={
-                            <IconButton
-                                icon="dots-vertical"
-                                color="rgb(187,185,185)"
-                                size={28}
-                                style={{ margin: 0, right: 1, top: 3 }}
-                                onPress={openMenu}
-                            />}
-                    >
-                        <Menu.Item icon="pencil" onPress={() => { toggleModeEditComment(); closeMenu() }} title="Edit" />
-                        <Menu.Item icon="delete" onPress={() => { }} title="Delete" />
-                    </Menu>
+                    :loadingRequest
+                        ? <ActivityIndicator size={28} color="red" />
+                        :
+                        <Menu
+                            visible={visibleMenu}
+                            onDismiss={closeMenu}
+                            style={{ marginTop: 15, }}
+                            anchor={
+                                <IconButton
+                                    icon="dots-vertical"
+                                    color="rgb(187,185,185)"
+                                    size={28}
+                                    style={{ margin: 0, right: 1, top: 3 }}
+                                    onPress={openMenu}
+                                />}
+                        >
+                            <Menu.Item icon="pencil" onPress={() => { toggleModeEditComment(); closeMenu() }} title="Edit" />
+                            <Menu.Item icon="delete" onPress={() => { showModalDeleteComment(comment.comentario); closeMenu() }} title="Delete" />
+                        </Menu>
                 }
 
             </View>
             <View style={styles.bodyComment}>
                 {modeEditComment.visible
                     ? <DismissKeyboard>
-                        <View style={{ flexDirection: "row", alignItems: "center",width:"100%" }}>
+                        <View style={{ flexDirection: "row", alignItems: "center", width: "100%" }}>
                             <TextInput
                                 style={[{ backgroundColor: "#343a40", width: "90%" }]}
                                 theme={{ colors: { text: "rgb(187,185,185)", primary: "#3dff65" } }}
@@ -126,6 +145,22 @@ const CommentUser = ({ comment,idItinerary,userLogged,modifyComment }) => {
                 }
 
             </View>
+
+            <Portal>
+                <Modal visible={stateModal.visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
+                    <Text style={styles.modalTitle}>{stateModal.title} </Text>
+                    <Text style={styles.modalBody}>{stateModal.body}</Text>
+                    <View style={{ marginTop: 30, flexDirection: "row", justifyContent: "space-around" }}>
+                        <Button mode="contained" onPress={() => requestModifyComment("borrar")}>
+                            Yes!
+                         </Button>
+                        <Button mode="contained" onPress={ hideModal} theme={{colors:{primary:"red"}}}>
+                            Cancel
+                        </Button>
+                    </View>
+
+                </Modal>
+            </Portal>
         </View>
     )
 }
@@ -163,6 +198,21 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 10
     },
+    modal: {
+        backgroundColor: 'white',
+        padding: 20,
+        width: "80%",
+        alignSelf: "center",
+        justifyContent:"flex-start"
+    },
+    modalTitle:{
+        fontWeight:'bold',
+        fontSize:20
+    },
+    modalBody:{
+        fontSize:17,
+        marginTop:10
+    }
 })
 
 const mapStateToProps = (state) => {
