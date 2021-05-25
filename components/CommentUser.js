@@ -30,7 +30,6 @@ const CommentUser = ({ comment, idItinerary, userLogged, modifyComment }) => {
             newComment
         })
     }
-
     const [loadingRequest, setLoadingRequest] = useState(false);
     const requestModifyComment = async (accion) => {
         if (!userLogged)
@@ -115,9 +114,9 @@ const CommentUser = ({ comment, idItinerary, userLogged, modifyComment }) => {
             <View style={styles.bodyComment}>
                 {modeEditComment.visible
                     ? <DismissKeyboard>
-                        <View style={{ flexDirection: "row", alignItems: "center", width: "100%" }}>
+                        <View style={{ flexDirection: "row", alignItems: "center", width: "100%" ,justifyContent:"space-between"}}>
                             <TextInput
-                                style={[{ backgroundColor: "#343a40", width: "90%" }]}
+                                style={[{ backgroundColor: "#343a40", width: "85%",height:30 }]}
                                 theme={{ colors: { text: "rgb(187,185,185)", primary: "#3dff65" } }}
                                 onChangeText={(e) => readInputEditComment(e)}
                                 value={modeEditComment.newComment}
@@ -132,7 +131,7 @@ const CommentUser = ({ comment, idItinerary, userLogged, modifyComment }) => {
                                 <IconButton
                                     icon="send"
                                     color="white"
-                                    size={28}
+                                    size={25}
                                     style={{ margin: 0, backgroundColor: "#3dff65" }}
                                     onPress={() => requestModifyComment("editar")}
                                 />

@@ -48,11 +48,11 @@ const cityItinerariesActions = {
             dispatch({type:"SET_CURRENT_ITINERARY",payload:idItinerary});
         }
     },
-    /*
-    likearItinerario : (token,idItinerario) => {
+    
+    likeItinerary : (token,idItinerary) => {
         return async (dispatch,getState) => {
             try{
-                const {data} = await axios.get(`${endpointItinerariesLike}/${idItinerario}`,{
+                const {data} = await axios.get(`${endpointItinerariesLike}/${idItinerary}`,{
                     headers:{'Authorization': 'Bearer ' + token}
                 })
                 dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta})
@@ -63,19 +63,17 @@ const cityItinerariesActions = {
                 return {success :false}    
             }
         }
-    },*/
+    },
     modifyComment : (idItinerary,token,body) => {
         const {idComentario,comentario,accion} = body;
         console.log(body,idItinerary,comentario)
         return async (dispatch) =>{
             try{
                 let {data} = await axios.put(`${endpointItinerariesModifyComment  }/${idItinerary}`,{idComentario,comentario,accion},{
-                //let {data} = await axios.put(`http://localhost:4000/api/itineraries/modificarComentario/${idItinerary}`,{idComentario,comentario,accion},{
                     headers:{
                         'Authorization': 'Bearer ' + token,    
                     }
                 });
-                console.log(data)
                 data.success
                 ? dispatch({type:"UPDATE_ITINERARY",payload:data.respuesta}) 
                 : showToastMessage("error",data.error);
