@@ -20,13 +20,13 @@ const BtnLike = ({itinerary,userLogged,likeItinerary}) => {
         if (loadingRequest) return false
         setLoadingRequest(true);
         let lastState = { ...stateLike }
-        console.log(stateLike)
+        
         setStateLike({
             ...stateLike,
             numberOfLikes: stateLike.isLiked ? stateLike.numberOfLikes-1 : stateLike.numberOfLikes+1,
             isLiked: !stateLike.isLiked,
         })
-         console.log(stateLike)
+         
         let response;
         try {
             response = await likeItinerary(userLogged.token, itinerary._id);

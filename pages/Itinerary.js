@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 import { Text, View, StyleSheet, ScrollView, Image } from 'react-native'
-import { Avatar, FAB, IconButton, Chip, TouchableRipple, TextInput, ActivityIndicator } from 'react-native-paper'
+import { Avatar, FAB, IconButton, Chip, TouchableRipple, TextInput, ActivityIndicator, Card, Title } from 'react-native-paper'
 import { myContainer } from '../helpers/myStyles'
 import ImageView from "react-native-image-viewing";
 import CommentUser from '../components/CommentUser'
@@ -11,7 +11,8 @@ import { connect } from 'react-redux'
 import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
 import BtnLike from '../components/BtnLike'
 
-const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
+
+const Itinerary = ({ itinerary, userLogged, modifyComment, navigation }) => {
     const [stateImageView, setStateImageView] = useState({
         visible: false,
         index: 0
@@ -19,7 +20,7 @@ const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
     const [loadingRequest, setLoadingRequest] = useState(false)
     const [inputSend, setInputSend] = useState("")
 
-    if(!itinerary) return null
+    if (!itinerary) return null
 
     const images = itinerary.activities.map(activity => ({ uri: activity.imagenHost }));
 
@@ -33,12 +34,12 @@ const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
         setLoadingRequest(false);
     }
 
-    
+
 
     return (
         < >
-            <ScrollView style={{ height: "90%", width: "100%" } } >
-                <View style={[myContainer.body,{paddingBottom:80}]}>
+            <ScrollView style={{ height: "90%", width: "100%" }} >
+                <View style={[myContainer.body, { paddingBottom: 80 }]}>
 
                     <View style={styles.infoItinerary}>
                         <View style={{ width: "25%" }}>
@@ -52,7 +53,7 @@ const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-around", width: "100%", marginTop: 10 }}>
                         <View>
-                            <BtnLike/>
+                            <BtnLike />
                             <Text style={styles.textInfoIcon}>Likes</Text>
                         </View>
                         <View>
@@ -85,7 +86,7 @@ const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
                         {itinerary.hashTags.map(hashTag => <Chip key={hashTag} mode="outlined" >{hashTag}</Chip>)}
                     </View>
 
-                    <View style={{ height: 200 }}>
+                    <View style={{ height: 300 }}>
                         <ScrollView horizontal={true} style={{ marginTop: 20 }}>
                             {itinerary.activities.map((activity, index) => {
                                 return (
@@ -96,7 +97,18 @@ const Itinerary = ({ itinerary, userLogged, modifyComment,navigation }) => {
                                             visible: true
                                         })
                                     }}>
-                                        <Image source={{ uri: activity.imagenHost }} style={styles.imagenActivity} />
+                                        <View style={{width:350 ,marginHorizontal:10,alignItems:'center'}}>
+                                        <View style={styles.headerCard}>
+                                                    <IconButton
+                                                        icon="star"
+                                                        color="#ffff00"
+                                                        size={23}
+                                                        style={{ margin: 0, }}
+                                                    />
+                                                    <Text style={styles.titleActivity}>{activity.titulo}</Text>
+                                                </View>
+                                        {<Image source={{ uri: activity.imagenHost }} style={styles.imagenActivity} />}
+                                        </View>
                                     </TouchableRipple>
                                 )
                             })}
@@ -228,6 +240,22 @@ const styles = StyleSheet.create({
         height: 200,
         width: "100%",
         borderTopColor: "grey"
+    },
+    titleActivity: {
+        color: "white",
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    headerCard: {
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        width:"100%",
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: "#1a237e",
+        borderColor: "#0091ea",
+        borderWidth: 2
     }
 
 })
