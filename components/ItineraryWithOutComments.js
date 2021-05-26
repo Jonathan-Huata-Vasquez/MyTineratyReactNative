@@ -6,8 +6,11 @@ import {connect} from 'react-redux';
 import cityItinerariesAction from '../redux/actions/cityItinerariesAction'
 
 const ItineraryWithOutComments = ({ itinerary , navigation, setCurrentItinerary }) => {
-    if(!itinerary)
-        return null
+    if(!itinerary){
+        navigation.navigate("Cities");
+        return null;
+    }
+        
 
     const slides = itinerary.activities.map(activity => {
         return  <Image source={{uri:activity.imagenHost}} style={styles.imageActivity} resizeMode="cover" />

@@ -31,7 +31,7 @@ const authActions = {
 
                 showToastMessage("success", `Welcome ${data.respuesta.nombreCompleto}`);
                 dispatch({ type: "LOG_IN_USER", payload: data.respuesta })
-
+                dispatch({type:"CLEAR_ITINERARY_OF_CITY"});
             } catch (err) {
                 console.log(err)
                 toastMessageError500();
@@ -68,7 +68,8 @@ const authActions = {
     signOutUser: () => {
         return (dispatch, getState) => {
             showToastMessage("info", "Come back later ");
-            dispatch({ type: "LOG_OUT_USER" })
+            dispatch({ type: "LOG_OUT_USER" });
+            dispatch({type:"CLEAR_ITINERARY_OF_CITY"});
         }
     }
 }

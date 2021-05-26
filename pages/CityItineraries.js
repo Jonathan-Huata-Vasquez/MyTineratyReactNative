@@ -12,12 +12,12 @@ class CityItineraries extends React.Component {
         if (this.props.itinerariesOfCity.length === 0) {
             this.props.getItinerariesWithActivities(this.props.route.params.idCity)
         }
-        
     }
-
+    
 
     render() {
         const { navigation, loading, itinerariesOfCity } = this.props;
+        console.log(this.props.route.params.idCity)
 
         if (loading) {
             return (

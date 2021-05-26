@@ -7,6 +7,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux'
 import authAction from '../redux/actions/authAction'
 
+
+
+
 class LogIn extends React.Component {
 
     state = {
@@ -87,8 +90,10 @@ class LogIn extends React.Component {
         }
         this.setLoadingRequest(true)
         const error = await this.props.logInUser(objUser)
-        if (!error)
-            return this.props.navigation.navigate("Home")
+        if (!error){
+            return this.props.navigation.push("Cities")
+        }
+            
         
         this.setState({
             ...this.state,

@@ -39,7 +39,7 @@ function DrawerContent(props) {
                     </View>
                 </View>
                 <Drawer.Section style={styles.drawerSection}>
-                    <DrawerItemIcon nameIcon="home-outline" label="Home" navigate={navigation.navigate} componentNameDestination="Home" />
+                    {/*<DrawerItemIcon nameIcon="home-outline" label="Home" navigate={navigation.navigate} componentNameDestination="Home" />*/}
                     <DrawerItemIcon nameIcon="city-variant-outline" label="Cities" navigate={navigation.navigate} componentNameDestination="Cities" />
                     {!userLogged &&
                         <>
@@ -63,7 +63,7 @@ function DrawerContent(props) {
                         label="Sign out"
                         onPress={() => {
                             props.signOutUser();
-                            navigation.navigate("Home");
+                            navigation.navigate("Cities");
                         }}
                     >
                     </DrawerItem>

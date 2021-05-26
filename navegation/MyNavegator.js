@@ -17,7 +17,6 @@ const MyNavegator = () => {
     return (
         //aqui creamos el navegador con el .Navigator, por defecto carga el primero siempre
         <drawerNavegator.Navigator drawerContent = { props=> <MyDrawerContent {...props} />}>
-            <drawerNavegator.Screen name ="Home"  component={Home} options={{title:"Home"}}/> 
             <drawerNavegator.Screen name ="Cities"  component={StackCities} options={{title:"List of Cities"}}/> 
             <drawerNavegator.Screen name ="LogIn"  component={LogIn} options={{title:"Log In"}}/> 
             <drawerNavegator.Screen name ="SignUp"  component={SignUp} options={{title:"Sign Up"}}/>

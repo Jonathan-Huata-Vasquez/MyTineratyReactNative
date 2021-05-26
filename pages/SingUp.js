@@ -155,7 +155,7 @@ class SignUp extends React.Component {
             errors.forEach(anError => this.iterableSetError(anError.label, anError.message));
             this.setLoadingRequest(false);
         } else {
-            this.props.navigation.navigate("Home");
+            this.props.navigation.navigate("Cities");
         }
     }
 

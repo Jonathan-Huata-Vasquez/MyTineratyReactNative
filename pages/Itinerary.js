@@ -20,7 +20,10 @@ const Itinerary = ({ itinerary, userLogged, modifyComment, navigation }) => {
     const [loadingRequest, setLoadingRequest] = useState(false)
     const [inputSend, setInputSend] = useState("")
 
-    if (!itinerary) return null
+    if (!itinerary){
+        navigation.navigate("Cities")
+        return null  
+    } 
 
     const images = itinerary.activities.map(activity => ({ uri: activity.imagenHost }));
 
