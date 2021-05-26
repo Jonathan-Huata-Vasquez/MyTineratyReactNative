@@ -17,12 +17,15 @@ class CityItineraries extends React.Component {
 
     render() {
         const { navigation, loading, itinerariesOfCity } = this.props;
-        console.log(this.props.route.params.idCity)
+        if (this.props.itinerariesOfCity.length === 0) {
+            this.props.getItinerariesWithActivities(this.props.route.params.idCity)
+        }
+        
 
         if (loading) {
             return (
                 <View style={myContainer.body}>
-                    <ActivityIndicator color="rgb(12,173,12)" size={50} />
+                    <ActivityIndicator color="#ffd740" size={50} />
                 </View>
             )
         }

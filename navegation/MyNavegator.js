@@ -1,14 +1,10 @@
 import {createDrawerNavigator,DrawerContentScrollView,DrawerItem} from '@react-navigation/drawer'
 import LogIn from '../pages/LogIn';
 import SignUp from '../pages/SingUp';
-import Home from '../pages/Home'
-import Cities from '../pages/Cities'
+
 import React from 'react'
 import {StackCities} from './Stack'
-import {Avatar,Title,Caption,Paragraph,Drawer,Text,TouchableRipple} from 'react-native-paper'
-import { StyleSheet} from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {View} from 'react-native'
+
 
 import MyDrawerContent from './MyDrawerContent'
 const drawerNavegator = createDrawerNavigator();

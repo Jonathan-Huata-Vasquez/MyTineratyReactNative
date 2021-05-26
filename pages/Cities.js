@@ -80,12 +80,12 @@ class Cities extends React.Component {
                 </View>
 
 
-                <FAB
+               { <FAB
                     style={styles.fab}
                     small={false}
-                    icon="home-outline"
-                    onPress={() => navigation.navigate("Home")}
-                />
+                    icon="menu"
+                    onPress={() => navigation.openDrawer()}
+               />}
             </View>
         )
     }
