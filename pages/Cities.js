@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
     cityNotFoundBackgroundImage: {
-        height: "100%",
+        height: 400,
         width: "100%",
         alignItems: 'center',
         justifyContent: 'center',
