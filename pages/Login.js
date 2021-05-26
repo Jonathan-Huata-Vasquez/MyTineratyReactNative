@@ -91,7 +91,7 @@ class LogIn extends React.Component {
         this.setLoadingRequest(true)
         const error = await this.props.logInUser(objUser)
         if (!error){
-            return this.props.navigation.push("Cities")
+            return this.props.navigation.navigate("Cities")
         }
             
         
